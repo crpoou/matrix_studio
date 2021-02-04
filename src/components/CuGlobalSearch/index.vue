@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { EmptyArr, EmptyLabel, SearchTypeMap } from '@constant'
+import { EmptyArr, EmptySearch, EmptyStr, SearchTypeMap } from '@constant'
 import { SEARCH_BY_DISPLAYNAME, SEARCH_BY_UUID, UuidMap } from '@store/Cube'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { SearchType } from '@interface'
@@ -29,12 +29,12 @@ const SearchFunMap = { uuid: SEARCH_BY_UUID, displayName: SEARCH_BY_DISPLAYNAME 
 export default defineComponent({
   name: 'CuGlobalSearch',
   setup() {
-    const searchKey = ref('')
+    const searchKey = ref(EmptyStr)
     const searchType = ref<SearchType>('displayName')
     const searchTypeLabel = computed(() => SearchTypeMap[searchType.value].label)
     const ariaLabel = computed(() => {
       const size = searchResult.value.length
-      return size ? `${nextIndex.value}/${size}` : EmptyLabel
+      return size ? `${nextIndex.value}/${size}` : EmptySearch
     })
     const nextIndex = ref(0)
     const searchResult = computed(() => {

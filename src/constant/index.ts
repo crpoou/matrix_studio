@@ -8,8 +8,8 @@ export const StateMutationsMap = Object.freeze({
 })
 
 export const ProvideInjectKeyMap = Object.freeze({
-  DISABLED: 'DISABLED',
-  CURRENT_TAB: 'CURRENT_TAB'
+  DISABLED: Symbol(),
+  CURRENT_TAB: Symbol()
 })
 
 export const TitleMap = Object.freeze({ true: '退出全屏', false: '进入全屏' })
@@ -24,6 +24,7 @@ export const SearchTypeMap: Record<SearchType, Readonly<IGlobalSearchTypeItem>> 
   uuid: Object.freeze<IGlobalSearchTypeItem>({ next: 'displayName', label: '卡片ID' }),
   displayName: Object.freeze<IGlobalSearchTypeItem>({ next: 'uuid', label: '卡片名称' })
 })
-export const EmptyLabel = '无搜索结果'
-export const EmptyArr: ReadonlyArray<any> = Object.freeze([])
+export const EmptySearch = '无搜索结果'
+export const EmptyArr: ReadonlyArray<never> = Object.freeze([])
 export const EmptyObj: Readonly<{}> = Object.freeze<{}>({})
+export const EmptyStr = ''

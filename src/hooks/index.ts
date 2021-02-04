@@ -2,7 +2,13 @@ import { ComputedRef, computed, reactive, watchEffect } from 'vue'
 import { ComputedGetter } from '@vue/reactivity'
 import { Step } from '@interface'
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * 创建校验集合
+ * @param valiDateKeyMap 表单字段 -> 校验函数映射
+ *
+ * 1. 创建校验集合
+ * 2. 创建副作用函数，更新校验集合，增加非法字段、移除合法字段
+ */
 export function useValidate<T = string>(valiDateKeyMap: Map<string, ComputedGetter<T>>) {
   const ValidateCollection = reactive(new Map<string, ComputedRef<T>>())
   for (const [key, validateFun] of valiDateKeyMap) {

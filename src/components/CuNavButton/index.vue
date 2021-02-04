@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import { EmptyStr } from '@constant'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -12,7 +13,7 @@ export default defineComponent({
   props: {
     icon: {
       type: String,
-      default: ''
+      default: EmptyStr
     },
     label: {
       type: [String, Number],

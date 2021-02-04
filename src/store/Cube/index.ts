@@ -10,6 +10,7 @@ import {
   reduceFlowsVoid,
   reduceStepVoid
 } from '@utils'
+import { EmptyStr } from '@constant'
 
 /** 全局流程数据 */
 export const Flows: Ref<Steps> = ref<Steps>(new Set<Step>())
@@ -28,7 +29,7 @@ export const OpenedSteps: Set<string> = reactive(new Set<string>())
 /** 被禁用的卡片UUID集合 */
 export const ForbiddenSteps: Set<string> = reactive(new Set<string>())
 /** 当前选中的TAB页 */
-export const CurrentFlowUUID: Ref<string> = ref<string>('')
+export const CurrentFlowUUID: Ref<string> = ref<string>(EmptyStr)
 /** 顶部Tab校验集合？？？ */
 export const TabsValidateMap: Set<any> = reactive(new Set<any>())
 /** UUID对step数据，branch数据的映射  */

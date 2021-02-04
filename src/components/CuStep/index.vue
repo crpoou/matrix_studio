@@ -23,7 +23,7 @@
       <div class="bg-pink">校验集合！StepEdit容器右上角的校验汇总</div>
       <ul class="cu-validate">
         <li
-          v-for="[key, validate] in ValidateMap.get(step.uuid)"
+          v-for="[key, validate] in ValidateCollection"
           :key="key"
           class="cu-validate__item"
           :validate="!validate.value"
@@ -79,7 +79,7 @@ export default defineComponent({
   setup(props: ICuStepProps) {
     /** 禁用状态默认值，只有第一层卡片才会用到，直接判断ForbiddenSteps */
     const defaultDisabled = computed(() => ForbiddenSteps.has(props.step.uuid))
-    /** 拿到上层卡片被禁用状态， */
+    /** 拿到上层卡片被禁用状态 */
     const injectDisabled = inject<ComputedRef<boolean>>(ProvideInjectKeyMap.DISABLED, defaultDisabled)
     /** 当前卡片是否被禁用，继承上层卡片的禁用状态 */
     const currentDisabled = computed(() => injectDisabled.value || defaultDisabled.value)
@@ -91,6 +91,8 @@ export default defineComponent({
     const isEdit = computed(() => OpenedSteps.has(props.step.uuid))
     /** 卡片是否选中 */
     const isSelect = computed(() => SelectedSteps.has(props.step.uuid))
+    /** 当前卡片的校验集合，初始化卡片会执行两次，从undefined到有值 */
+    const ValidateCollection = computed(() => ValidateMap.get(props.step.uuid))
     /** 卡片的DOM实例 */
     const domRef = ref<HTMLDivElement>()
     /** 没啥用的测试方法 */
@@ -117,6 +119,7 @@ export default defineComponent({
       FORBID_STEP,
       MULTIPLE_SELECT_STEP,
       SELECT_STEP,
+      ValidateCollection,
       SelectedSteps,
       ValidateMap,
       TOOGLE_STEP,
