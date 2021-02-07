@@ -29,7 +29,7 @@ export const SelectedSteps: Set<string> = reactive(new Set<string>())
 /** 打开的卡片UUID集合，编辑模式的卡片集合 */
 export const OpenedSteps: Set<string> = reactive(new Set<string>())
 /** 被禁用的卡片UUID集合 */
-export const ForbiddenSteps: Set<string> = reactive(new Set<string>())
+// export const ForbiddenSteps: Set<string> = reactive(new Set<string>())
 /** 当前选中的TAB页 */
 export const CurrentFlowUUID: Ref<string> = ref<string>(EmptyStr)
 /** 顶部Tab校验集合？？？ */
@@ -136,7 +136,7 @@ export function ON_STEP_BEFORE_UNMOUNT(step: Step) {
   DomRefMap.delete(uuid)
   SelectedSteps.delete(uuid)
   OpenedSteps.delete(uuid)
-  ForbiddenSteps.delete(uuid)
+  // ForbiddenSteps.delete(uuid)
 }
 
 // NOTE: 卡片选中与取消选中等逻辑
@@ -203,11 +203,13 @@ export function CLEAR_OPEN_STEP() {
 // NOTE: 卡片禁用逻辑
 
 export function FORBID_STEP(step: Step) {
-  ForbiddenSteps.add(step.uuid)
+  step.isDisabled = true
+  // ForbiddenSteps.add(step.uuid)
 }
 
 export function USE_STEP(step: Step) {
-  ForbiddenSteps.delete(step.uuid)
+  // ForbiddenSteps.delete(step.uuid)
+  step.isDisabled = false
 }
 // NOTE: 其他基础函数
 /**

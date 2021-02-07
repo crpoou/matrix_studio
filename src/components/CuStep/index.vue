@@ -18,7 +18,8 @@
           @click.stop="TOOGLE_STEP(step)"
         />
         <button class="cu-btn ft-x-circle text-24" title="原地删除" @click="DEL_STEP(step)" />
-        <button class="cu-btn ft-slash text-24" title="禁用" @click="FORBID_STEP(step)" />
+        <button class="cu-btn ft-lock text-24" title="禁用" @click="FORBID_STEP(step)" />
+        <button class="cu-btn ft-unlock text-24" title="启用" @click="USE_STEP(step)" />
       </header>
       <div class="bg-pink">校验集合！StepEdit容器右上角的校验汇总</div>
       <ul class="cu-validate">
@@ -50,7 +51,6 @@ import {
   ChildValidateMap,
   DEL_STEP,
   FORBID_STEP,
-  ForbiddenSteps,
   MULTIPLE_SELECT_STEP,
   ON_STEP_BEFORE_UNMOUNT,
   ON_STEP_MOUNTED,
@@ -58,6 +58,7 @@ import {
   SELECT_STEP,
   SelectedSteps,
   TOOGLE_STEP,
+  USE_STEP,
   ValidateMap
 } from '@store/Cube'
 import { ComputedRef, computed, defineComponent, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue'
@@ -82,8 +83,8 @@ export default defineComponent({
   },
   // @ts-ignore
   setup(props: ICuStepProps) {
-    /** 禁用状态默认值，只有第一层卡片才会用到，直接判断ForbiddenSteps */
-    const defaultDisabled = computed(() => ForbiddenSteps.has(props.step.uuid))
+    /** 禁用状态默认值，只有第一层卡片才会用到 */
+    const defaultDisabled = computed(() => props.step.isDisabled)
     /** 拿到上层卡片被禁用状态 */
     const injectDisabled = inject<ComputedRef<boolean>>(ProvideInjectKeyMap.DISABLED, defaultDisabled)
     /** 当前卡片是否被禁用，继承上层卡片的禁用状态 */
@@ -124,6 +125,7 @@ export default defineComponent({
       DEL_STEP,
       ChildValidateMap,
       FORBID_STEP,
+      USE_STEP,
       MULTIPLE_SELECT_STEP,
       SELECT_STEP,
       ValidateCollection,
