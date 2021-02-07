@@ -27,15 +27,15 @@ export function useValidate<T = string>(KeyValidateFunMap: Map<string, ComputedG
 /**
  * 子卡片的错误
  *
- * @param step
+ * @param props
  *
  * 1. 统计第一层出错的子卡片的UUID
  */
-export function useChildValidate(step: Step) {
+export function useChildValidate(props: any) {
   /** 错误的子卡片的UUID集合 */
   const ChildValidateCollection = reactive(new Set<string>())
   watchEffect(() => {
-    const { branchs } = step
+    const { branchs } = props.step as Step
     if (branchs) {
       for (const branch of branchs) {
         for (const childStep of branch.steps) {

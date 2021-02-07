@@ -18,8 +18,8 @@ export const Flows: Ref<Steps> = ref<Steps>(new Set<Step>())
 export const ValidateMap: Map<string, Map<string, ComputedRef<string | boolean>>> = reactive(
   new Map<string, Map<string, ComputedRef<boolean | string>>>()
 )
-/** 卡片 */
-// export const ChildValidateMap = reactive(new Map<string, Set<string>>())
+/** 错误子卡片的UUID集合， */
+export const ChildValidateMap = reactive(new Map<string, Set<string>>())
 /** 卡片Dom实例集合 */
 export const DomRefMap: Map<string, Ref<HTMLDivElement | undefined>> = shallowReactive(
   new Map<string, Ref<HTMLDivElement | undefined>>()
@@ -81,9 +81,12 @@ export function ON_FORM_MOUNTED(
   data: {
     /** 校验集合 */
     ValidateCollection: Map<string, ComputedRef<boolean | string>>
+    ChildValidateCollection: Set<string>
   }
 ) {
-  ValidateMap.set(step.uuid, data.ValidateCollection)
+  const { uuid } = step
+  ValidateMap.set(uuid, data.ValidateCollection)
+  ChildValidateMap.set(uuid, data.ChildValidateCollection)
 }
 
 /**
@@ -94,7 +97,9 @@ export function ON_FORM_MOUNTED(
  * 1. 卸载校验集合
  */
 export function ON_FORM_BEFORE_UNMOUNT(step: Step) {
-  ValidateMap.delete(step.uuid)
+  const { uuid } = step
+  ValidateMap.delete(uuid)
+  ChildValidateMap.delete(uuid)
 }
 
 // NOTE: STEP组件生命周期相关处理，注册DOM实例与销毁，等等

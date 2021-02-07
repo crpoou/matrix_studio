@@ -30,6 +30,10 @@
         >
           {{ key }}：{{ validate.value }}
         </li>
+        <div class="bg-pink">报错的子卡片的UUID↓</div>
+        <li v-for="uuid in ChildValidateMap.get(step.uuid)" :key="uuid" class="cu-validate__item">
+          {{ uuid }}
+        </li>
       </ul>
     </template>
     <cu-form :step="step" :is-edit="isEdit" />
@@ -43,6 +47,7 @@
 //     </suspense> -->
 import {
   ADD_STEP,
+  ChildValidateMap,
   DEL_STEP,
   FORBID_STEP,
   ForbiddenSteps,
@@ -117,6 +122,7 @@ export default defineComponent({
       domRef,
       addStepSelf,
       DEL_STEP,
+      ChildValidateMap,
       FORBID_STEP,
       MULTIPLE_SELECT_STEP,
       SELECT_STEP,
