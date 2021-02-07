@@ -48,7 +48,7 @@ import { ComputedGetter } from '@vue/reactivity'
 import CuBranch from '@components/CuBranch/index.vue'
 import { FALSE } from '@share'
 import { Step } from '@interface'
-import { useValidate } from '@hooks'
+import { useChildValidate, useValidate } from '@hooks'
 
 // 空字符取反为true，校验通过，报错字符串取反为false，校验不通过，未定义错误，取反为true，校验通过
 
@@ -80,16 +80,26 @@ export default defineComponent({
     /** 拿到表单所有字段 */
     const formKeys = Object.keys(props.step.form || EmptyObj)
     /** 创建所有字段的校验函数，添加到Map构造参数 */
-    const KeyValidateMap: Map<string, ComputedGetter<string>> = new Map()
+    const KeyValidateFunMap: Map<string, ComputedGetter<string>> = new Map()
     for (const key of formKeys) {
-      KeyValidateMap.set(key, () => {
+      KeyValidateFunMap.set(key, () => {
         if (isDisabled.value) return EmptyStr // 如果被禁用，跳过校验
         if (props.step.form[key]) return EmptyStr // 如果字段有值，通过校验
         return '字段不能为空' // 否则校验不通过
       })
     }
+    // 如果是容器卡
+    if (props.step.branchs) {
+      // 随便取一个字段
+      KeyValidateFunMap.set('needChild', () => {
+        if (props.step.branchs!.size) return EmptyStr
+        return '至少需要一个字卡片'
+      })
+    }
+
     /** 创建当前FORM表单的校验集合 */
-    const { ValidateCollection } = useValidate(KeyValidateMap)
+    const { ValidateCollection } = useValidate(KeyValidateFunMap)
+
     /** 第一层子卡片的全部错误 */
     const childValidateCollection = computed(() => {
       const res = new Map()

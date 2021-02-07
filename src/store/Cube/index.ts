@@ -18,6 +18,8 @@ export const Flows: Ref<Steps> = ref<Steps>(new Set<Step>())
 export const ValidateMap: Map<string, Map<string, ComputedRef<string | boolean>>> = reactive(
   new Map<string, Map<string, ComputedRef<boolean | string>>>()
 )
+/** 卡片 */
+// export const ChildValidateMap = reactive(new Map<string, Set<string>>())
 /** 卡片Dom实例集合 */
 export const DomRefMap: Map<string, Ref<HTMLDivElement | undefined>> = shallowReactive(
   new Map<string, Ref<HTMLDivElement | undefined>>()

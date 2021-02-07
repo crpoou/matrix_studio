@@ -93,6 +93,7 @@ export default defineComponent({
     const isSelect = computed(() => SelectedSteps.has(props.step.uuid))
     /** 当前卡片的校验集合，初始化卡片会执行两次，从undefined到有值 */
     const ValidateCollection = computed(() => ValidateMap.get(props.step.uuid))
+    // const { ChildValidateCollection } = useChildValidate(props.step)
     /** 卡片的DOM实例 */
     const domRef = ref<HTMLDivElement>()
     /** 没啥用的测试方法 */
