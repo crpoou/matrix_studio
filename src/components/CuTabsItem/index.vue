@@ -2,9 +2,9 @@
   <div
     class="grid-center pointer text-12 bg-canvas cu-tabs-item"
     :class="{ select: isInCurrentTab }"
-    @click="CHANGE_TAB(flow)"
+    @click="CHANGE_TAB(step)"
   >
-    {{ flow.displayName }}
+    {{ step.displayName }} {{ ChildValidateCollection.size }}
   </div>
 </template>
 
@@ -12,19 +12,21 @@
 import { CHANGE_TAB, CurrentFlowUUID } from '@store/Cube'
 import { computed, defineComponent } from 'vue'
 import { Step } from '@interface'
+import { useChildValidate } from '@hooks'
 
 export default defineComponent({
   name: 'CuTabsItem',
   props: {
-    flow: {
+    step: {
       type: Object,
       required: true
     }
   },
   // @ts-ignore
-  setup(props: Readonly<{ flow: Step }>) {
-    const isInCurrentTab = computed(() => props.flow.uuid === CurrentFlowUUID.value)
-    return { CHANGE_TAB, isInCurrentTab }
+  setup(props: Readonly<{ step: Step }>) {
+    const isInCurrentTab = computed(() => props.step.uuid === CurrentFlowUUID.value)
+    const { ChildValidateCollection } = useChildValidate(props)
+    return { CHANGE_TAB, isInCurrentTab, ChildValidateCollection }
   }
 })
 </script>

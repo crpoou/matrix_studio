@@ -30,6 +30,7 @@ export default defineComponent({
     const isInCurrentTab = computed(() => props.flow.uuid === CurrentFlowUUID.value)
     // 向下注入
     provide(ProvideInjectKeyMap.CURRENT_TAB, isInCurrentTab)
+
     return { isInCurrentTab }
   }
 })

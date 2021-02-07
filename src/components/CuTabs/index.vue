@@ -1,7 +1,7 @@
 <template>
   <nav class="grid-column j-content-start overlay-x scroll-none bg-canvas cu-tabs">
     <section class="grid-column j-content-start bg-base column-gap-1">
-      <cu-tabs-item v-for="flow in Flows" :key="flow.uuid" :flow="flow" />
+      <cu-tabs-item v-for="flow in Flows" :key="flow.uuid" :step="flow" />
     </section>
   </nav>
 </template>

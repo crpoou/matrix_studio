@@ -35,6 +35,7 @@ export function useChildValidate(props: any) {
   /** 错误的子卡片的UUID集合 */
   const ChildValidateCollection = reactive(new Set<string>())
   watchEffect(() => {
+    ChildValidateCollection.clear()
     const { branchs } = props.step as Step
     if (branchs) {
       for (const branch of branchs) {
@@ -44,26 +45,10 @@ export function useChildValidate(props: any) {
           if (validateCollection?.size) {
             // 如果这张子卡有报错，添加，否则跳过
             ChildValidateCollection.add(uuid)
-          } else {
-            // 如果子卡不存在（可能性很小），或者无报错信息，从集合中剔除
-            ChildValidateCollection.delete(uuid)
           }
         }
       }
     }
   })
-  // const childValidateCollection = computed(() => {
-  //   const res = new Map()
-  //   const { branchs } = step
-  //   if (branchs) {
-  //     for (const branch of branchs) {
-  //       for (const childStep of branch.steps) {
-  //         const { uuid } = childStep
-  //         ValidateMap.has(uuid) && res.set(uuid, ValidateMap.get(uuid))
-  //       }
-  //     }
-  //   }
-  //   return res
-  // })
   return { ChildValidateCollection }
 }
