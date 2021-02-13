@@ -20,10 +20,12 @@ const AliasList = [
 ]
 export default defineConfig({
   base: './',
-  alias: AliasList.reduce((prev, cur) => {
-    prev[`@${cur}`] = join(__dirname, `src/${cur}`)
-    return prev
-  }, {}),
+  resolve: {
+    alias: AliasList.reduce((prev, cur) => {
+      prev[`@${cur}`] = join(__dirname, `src/${cur}`)
+      return prev
+    }, {})
+  },
   // define: {},
   plugins: [vue()],
   css: {
