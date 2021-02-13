@@ -1,5 +1,5 @@
 <template>
-  <aside class="grid cu-layout__aside-left cu-aside-left" :class="{ close: !$store.state.asideLeftOpen }">
+  <aside class="grid cu-layout__aside-left cu-aside-left" :class="{ 'cu-aside-left--close': !$store.state.asideLeftOpen }">
     <nav class="grid a-content-space-between overlay-y scroll-none bg-canvas cu-aside-left__tabs left-tabs">
       <section class="grid bg-base row-gap-1">
         <div
@@ -39,8 +39,29 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.left-tabs__toogle::before {
-  content: '\e92c';
+.left-tabs {
+  &__item {
+    min-height: $tabs-size;
+    transition: 0.3s ease-in-out;
+    will-change: background-color, color, transform;
+
+    &:hover,
+    &.select {
+      color: #409eff;
+    }
+
+    &.select {
+      background-color: white;
+    }
+  }
+
+  &__toogle {
+    transition: transform 0.3s ease-in-out;
+
+    &::before {
+      content: '\e92c';
+    }
+  }
 }
 
 .cu-aside-left {
@@ -53,37 +74,18 @@ export default defineComponent({
   overflow: hidden;
   resize: horizontal;
 
-  &.close {
+  &--close {
     width: $tabs-size !important;
     min-width: $tabs-size;
     resize: none;
 
-    .left-tabs__toogle::before {
-      content: '\e92d';
+    .left-tabs__toogle {
+      transform: rotate(1turn);
     }
   }
 
   &__tabs {
     grid-area: tabs;
-  }
-}
-
-.left-tabs {
-  &__item {
-    min-height: $tabs-size;
-    transition-timing-function: ease-in-out;
-    transition-duration: 0.3s;
-    transition-property: background-color, color;
-    will-change: background-color, color;
-
-    &:hover,
-    &.select {
-      color: #409eff;
-    }
-
-    &.select {
-      background-color: white;
-    }
   }
 }
 </style>

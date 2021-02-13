@@ -1,5 +1,5 @@
 <template>
-  <main id="cu-canvas" class="grid a-content-start over-hidden bg-canvas cu-canvas" @click="CLEAR_SELECT_STEP">
+  <main id="cu-canvas" class="grid area-main a-content-start over-hidden bg-canvas cu-canvas" @click="CLEAR_SELECT_STEP">
     <cu-flow v-for="flow in Flows" :key="flow.uuid" :flow="flow" />
   </main>
 </template>
@@ -20,8 +20,7 @@ export default defineComponent({
 
 <style lang="scss">
 .cu-canvas {
-  grid-area: canvas;
-  grid-template: 'flow' 1fr / 1fr;
+  grid-template: 'main' 1fr / 1fr;
   background-image: radial-gradient($base-background-color 1px, transparent 0);
   background-size: $canvas-shadow-size $canvas-shadow-size;
   box-shadow: $canvas-shadow-size 0 $half #{-$half} inset $canvas-shadow-color, #{-$canvas-shadow-size} 0 $half #{-$half} inset $canvas-shadow-color;

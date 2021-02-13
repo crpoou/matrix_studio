@@ -2,7 +2,7 @@
   <section
     v-show="isInCurrentTab"
     :key="flow.uuid"
-    class="grid-justify-center a-content-start custom-scroll overlay-y visible-auto cu-flow"
+    class="grid-justify-center area-main a-content-start custom-scroll overlay-y visible-auto"
   >
     <cu-branch v-for="branch in flow.branchs" :key="branch.uuid" :branch="branch" />
   </section>
@@ -35,8 +35,3 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
-.cu-flow {
-  grid-area: flow;
-}
-</style>

@@ -1,7 +1,9 @@
 <template>
   <footer class="bg-white cu-log">
     <button class="cu-btn" @click="toogle">切换</button>
-    <div v-if="logOpen" class="height200" />
+    <transition name="eio-height">
+      <div v-if="logOpen" class="height200" />
+    </transition>
   </footer>
 </template>
 

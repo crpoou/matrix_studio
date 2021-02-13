@@ -392,3 +392,17 @@ input[type='text'][validate='false'] {
     width: 0 !important;
   }
 }
+
+.eio-height {
+  &-enter-active,
+  &-leave-active,
+  &-move {
+    transition: height 0.15s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to,
+  &-move {
+    height: 0 !important;
+  }
+}

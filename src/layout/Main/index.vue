@@ -22,7 +22,7 @@ export default defineComponent({ name: 'CuMain', components: { CuTabs, CuCanvas,
 .cu-main {
   grid-template:
     'header' $tabs-size
-    'canvas' 1fr
+    'main' 1fr
     'log' auto
     / 1fr;
 
