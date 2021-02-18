@@ -10,6 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "incremental": true,
+    "isolatedModules": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "noImplicitAny": true,
@@ -25,7 +26,8 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": ["vite/client"]
   },
   "include": ["src/**/*"]
 }
