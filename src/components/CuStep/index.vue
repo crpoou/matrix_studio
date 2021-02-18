@@ -65,7 +65,7 @@ import { ComputedRef, computed, defineComponent, inject, onBeforeUnmount, onMoun
 import { FALSE } from '@share'
 import { ICuStepProps } from './interface'
 import { ProvideInjectKeyMap } from '@constant'
-import { getuuid } from '@utils'
+import { getuuid } from '@utils/uuid'
 
 // 空字符取反为true，校验通过，报错字符串取反为false，校验不通过
 

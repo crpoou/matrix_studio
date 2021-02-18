@@ -1,6 +1,5 @@
 import { Branch, ReduceFlowsVoidCb, ReduceStepVoidCb, Step, Steps } from '@interface'
 import { Ref } from 'vue'
-export { v4 as getuuid } from 'uuid'
 
 // NOTE: utils尽量不要导入外部数据
 // NOTE: 只使用形参
