@@ -33,7 +33,7 @@ export const OpenedSteps: Set<string> = reactive(new Set<string>())
 /** 当前选中的TAB页 */
 export const CurrentFlowUUID: Ref<string> = ref<string>(EmptyStr)
 /** 顶部Tab校验集合？？？ */
-export const TabsValidateMap: Set<any> = reactive(new Set<any>())
+export const TabsValidateMap = reactive(new Set<any>())
 /** UUID对step数据，branch数据的映射  */
 export const UuidMap: Map<string, Step | Branch> = reactive(new Map<string, Step | Branch>())
 /** DisplayName  ->  UUID集合 */
@@ -83,7 +83,7 @@ export function ON_FORM_MOUNTED(
     ValidateCollection: Map<string, ComputedRef<boolean | string>>
     ChildValidateCollection: Set<string>
   }
-) {
+): void {
   const { uuid } = step
   ValidateMap.set(uuid, data.ValidateCollection)
   ChildValidateMap.set(uuid, data.ChildValidateCollection)
@@ -96,7 +96,7 @@ export function ON_FORM_MOUNTED(
  *
  * 1. 卸载校验集合
  */
-export function ON_FORM_BEFORE_UNMOUNT(step: Step) {
+export function ON_FORM_BEFORE_UNMOUNT(step: Step): void {
   const { uuid } = step
   ValidateMap.delete(uuid)
   ChildValidateMap.delete(uuid)
@@ -117,7 +117,7 @@ export function ON_STEP_MOUNTED(
     /** STEP组件DOM实例 */
     domRef: Ref<HTMLDivElement | undefined>
   }
-) {
+): void {
   DomRefMap.set(step.uuid, data.domRef)
 }
 
@@ -131,7 +131,7 @@ export function ON_STEP_MOUNTED(
  * 3. 卸载编辑状态集残留
  * 4. 卸载禁用状态集残留
  */
-export function ON_STEP_BEFORE_UNMOUNT(step: Step) {
+export function ON_STEP_BEFORE_UNMOUNT(step: Step): void {
   const { uuid } = step
   DomRefMap.delete(uuid)
   SelectedSteps.delete(uuid)
@@ -144,7 +144,7 @@ export function ON_STEP_BEFORE_UNMOUNT(step: Step) {
  * 选中卡片，与其他卡片互斥，先清除再选中
  * @param step 卡片数据
  */
-export function SELECT_STEP(step: Step) {
+export function SELECT_STEP(step: Step): void {
   CLEAR_SELECT_STEP()
   SelectedSteps.add(step.uuid)
 }
@@ -153,19 +153,19 @@ export function SELECT_STEP(step: Step) {
  * 多选卡片，不进行清空
  * @param step
  */
-export function MULTIPLE_SELECT_STEP(step: Step) {
+export function MULTIPLE_SELECT_STEP(step: Step): void {
   SelectedSteps.add(step.uuid)
 }
 
 /** 清除所有选中卡 */
-export function CLEAR_SELECT_STEP() {
+export function CLEAR_SELECT_STEP(): void {
   SelectedSteps.clear()
 }
 
 /**
  * 一键全选，仅限于当前TAB页的卡片
  */
-export function SELECT_ALL_STEP() {
+export function SELECT_ALL_STEP(): void {
   const currentFlow = UuidMap.get(CurrentFlowUUID.value)
   if (currentFlow) reduceStepVoid.dbs(currentFlow as Step, step => SelectedSteps.add(step.uuid))
 }
@@ -175,7 +175,7 @@ export function SELECT_ALL_STEP() {
  * 打开卡片，进入编辑模式
  * @param step
  */
-export function OPEN_STEP(step: Step) {
+export function OPEN_STEP(step: Step): void {
   OpenedSteps.add(step.uuid)
 }
 
@@ -183,7 +183,7 @@ export function OPEN_STEP(step: Step) {
  * 关闭卡片，进入阅读模式
  * @param step
  */
-export function CLOSE_STEP(step: Step) {
+export function CLOSE_STEP(step: Step): void {
   OpenedSteps.delete(step.uuid)
 }
 
@@ -191,23 +191,23 @@ export function CLOSE_STEP(step: Step) {
  * 切换卡片阅读、编辑模式
  * @param step
  */
-export function TOOGLE_STEP(step: Step) {
+export function TOOGLE_STEP(step: Step): void {
   OpenedSteps.has(step.uuid) ? CLOSE_STEP(step) : OPEN_STEP(step)
 }
 
 /** 清除所有打开的卡片，一键进入阅读模式，优化性能 */
-export function CLEAR_OPEN_STEP() {
+export function CLEAR_OPEN_STEP(): void {
   OpenedSteps.clear()
 }
 
 // NOTE: 卡片禁用逻辑
 
-export function FORBID_STEP(step: Step) {
+export function FORBID_STEP(step: Step): void {
   step.isDisabled = true
   // ForbiddenSteps.add(step.uuid)
 }
 
-export function USE_STEP(step: Step) {
+export function USE_STEP(step: Step): void {
   // ForbiddenSteps.delete(step.uuid)
   step.isDisabled = false
 }
@@ -220,20 +220,20 @@ export function USE_STEP(step: Step) {
  * 2. JSON.stringify序列化
  * 3. 推入历史记录
  */
-function PRE_OPERATION() {
+function PRE_OPERATION(): void {
   HistoryStack.push(JSON.stringify(createSnapShot(Flows)))
 }
 
-export function GET_DOMUI(step: Step) {
+export function GET_DOMUI(step: Step): HTMLDivElement | undefined {
   return DomRefMap.get(step.uuid)?.value
 }
 
-export function SEARCH_BY_UUID(uuid: string) {
+export function SEARCH_BY_UUID(uuid: string): string[] {
   if (UuidMap.has(uuid)) return [uuid]
   return []
 }
 
-export function SEARCH_BY_DISPLAYNAME(displayName: string) {
+export function SEARCH_BY_DISPLAYNAME(displayName: string): string[] {
   const res = []
   const lower = displayName.toLowerCase()
   for (const [_name, _clo] of DisplayNameMap) if (_name.toLowerCase().includes(lower)) res.push(..._clo)
@@ -255,7 +255,7 @@ export function SEARCH_BY_DISPLAYNAME(displayName: string) {
  * const newStep = branch.steps[index] = convert(step)
  * ```
  */
-export function ADD_STEP(step: any, branch: Branch, index: number) {
+export function ADD_STEP(step: any, branch: Branch, index: number): void {
   // 1. 生成历史记录
   PRE_OPERATION()
   // 2.判断目标位置是否为branch最后一位
@@ -288,7 +288,7 @@ export function ADD_STEP(step: any, branch: Branch, index: number) {
  *
  * FIXME: 可能需要重排顺序，数组或选择顺序并不等于视图上的顺序，按照流程中卡片既有顺序重排
  */
-export function ADD_STEPS(steps: any[] | Set<any>, branch: Branch, index: number) {
+export function ADD_STEPS(steps: any[] | Set<any>, branch: Branch, index: number): void {
   // console.log('{ steps, branch, index } :>> ', { steps, branch, index })
   // 1. 生成历史记录
   PRE_OPERATION()
@@ -314,7 +314,7 @@ export function ADD_STEPS(steps: any[] | Set<any>, branch: Branch, index: number
  * @description
  *
  */
-export function DEL_STEPS() {
+export function DEL_STEPS(): void {
   PRE_OPERATION()
   for (const uuid of SelectedSteps) {
     const item = UuidMap.get(uuid)
@@ -333,7 +333,7 @@ export function DEL_STEPS() {
  * 2. 弹出历史记录中一项
  * 3. 全量替换全局流程数据
  */
-export function GO_BACK() {
+export function GO_BACK(): void {
   if (!HistoryStack.length) return
   FutureStack.push(JSON.stringify(createSnapShot(Flows)))
   const temp = HistoryStack.pop()
@@ -349,7 +349,7 @@ export function GO_BACK() {
  * 2. 弹出FutureStack栈中一项
  * 3. 全量替换全局流程数据
  */
-export function GO_TO() {
+export function GO_TO(): void {
   if (!FutureStack.length) return
   PRE_OPERATION()
   const temp = FutureStack.pop()
@@ -363,7 +363,7 @@ export function GO_TO() {
  *
  * 切换选中页时，取消选中所有卡
  */
-export function CHANGE_TAB(flow: Step) {
+export function CHANGE_TAB(flow: Step): void {
   CurrentFlowUUID.value = flow.uuid
   SelectedSteps.clear()
 }
@@ -375,7 +375,7 @@ export function CHANGE_TAB(flow: Step) {
  * @param step
  * @description 所有增量更新的操作，都需要进行历史记录标准操作
  */
-export function DEL_STEP(step: Step) {
+export function DEL_STEP(step: Step): void {
   PRE_OPERATION()
   step.parent?.steps.delete(step)
 }
@@ -387,12 +387,12 @@ export function DEL_STEP(step: Step) {
  *
  * 不在视图的内卡片当然会被记录进入编辑模式，但是不会有效果，也不会渲染
  */
-export function OPEN_ALL_STEP() {
+export function OPEN_ALL_STEP(): void {
   for (const uuid of UuidMap.keys()) OpenedSteps.add(uuid)
 }
 
 /** 刷新FLOWS数据，测试使用 */
-export function RefreshFlows() {
+export function RefreshFlows(): void {
   getJSON().then(data => {
     Flows.value = convertJsonToFlow(data)
   })

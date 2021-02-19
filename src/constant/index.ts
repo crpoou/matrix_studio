@@ -26,5 +26,5 @@ export const SearchTypeMap: Record<SearchType, Readonly<IGlobalSearchTypeItem>> 
 })
 export const EmptySearch = '无搜索结果'
 export const EmptyArr: ReadonlyArray<never> = Object.freeze([])
-export const EmptyObj: Readonly<object> = Object.freeze<{}>({})
+export const EmptyObj: Readonly<Record<string, never>> = Object.freeze<Record<string, never>>({})
 export const EmptyStr = ''

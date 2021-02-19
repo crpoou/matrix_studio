@@ -12,6 +12,7 @@ module.exports = {
   extends: [
     // add more generic rulesets here, such as:
     // 'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-recommended'
     // 'plugin:vue/recommended' // Use this if you are using Vue.js 2.x.
   ],
@@ -153,7 +154,8 @@ module.exports = {
     'no-undef': 2, // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到
     'no-undef-init': 2, // 禁止将变量初始化为undefined
     'no-undefined': 0, // 允许使用undefined变量
-    'no-unused-vars': 2, // 禁止出现未使用过的变量，模块化module开发时，很多变量和方法无法追踪，关闭规则，TS的类型变量，需要TSLint支持
+    'no-unused-vars': 0, // 禁止出现未使用过的变量，模块化module开发时，很多变量和方法无法追踪，关闭规则，TS的类型变量，需要TSLint支持
+    '@typescript-eslint/no-unused-vars': 2,
     'no-use-before-define': 0, // 禁止在定义前使用
     /* Node.js and CommonJS 这些规则是关于Node.js 或 在浏览器中使用CommonJS 的 */
     /* Stylistic Issues 这些规则是关于风格指南的，而且是非常主观的 */
@@ -287,7 +289,11 @@ module.exports = {
     'symbol-description': 0, // 要求 symbol 描述
     'template-curly-spacing': [2, 'never'], // 强制模板字符串中空格的使用
     'yield-star-spacing': [2, { before: true, after: true }], // 强制在 yield* 表达式中 * 周围使用空格
-    // // templete模板中>符号不换行
+    // typescript规则
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    // templete模板中>符号不换行
     'vue/max-attributes-per-line': 0,
     'vue/singleline-html-element-content-newline': 0,
     'vue/html-self-closing': ['error', { html: { void: 'always' } }]

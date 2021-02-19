@@ -1,3 +1,3 @@
-export function FALSE() {
+export function FALSE(): boolean {
   return false
 }

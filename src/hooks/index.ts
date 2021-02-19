@@ -10,7 +10,9 @@ import { ValidateMap } from '@store/Cube'
  * 1. 创建校验集合
  * 2. 创建副作用函数，更新校验集合，增加非法字段、移除合法字段
  */
-export function useValidate<T = string>(KeyValidateFunMap: Map<string, ComputedGetter<T>>) {
+export function useValidate<T = string>(
+  KeyValidateFunMap: Map<string, ComputedGetter<T>>
+): { ValidateCollection: Map<string, ComputedRef<T>> } {
   const ValidateCollection = reactive(new Map<string, ComputedRef<T>>())
   for (const [key, validateFun] of KeyValidateFunMap) {
     const validateRes = computed(validateFun)
@@ -31,7 +33,7 @@ export function useValidate<T = string>(KeyValidateFunMap: Map<string, ComputedG
  *
  * 1. 统计第一层出错的子卡片的UUID
  */
-export function useChildValidate(props: any) {
+export function useChildValidate(props: any): { ChildValidateCollection: Set<string> } {
   /** 错误的子卡片的UUID集合 */
   const ChildValidateCollection = reactive(new Set<string>())
   watchEffect(() => {

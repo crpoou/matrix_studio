@@ -78,7 +78,7 @@ export default defineComponent({
       // 随便取一个字段
       KeyValidateFunMap.set('needChild', () => {
         if (isDisabled.value) return EmptyStr // 如果被禁用，跳过校验
-        if (props.step.branchs!.size) return EmptyStr
+        if (props.step.branchs?.size) return EmptyStr
         return '至少需要一个字卡片'
       })
     }

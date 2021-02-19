@@ -14,7 +14,7 @@ import { nextTick } from 'vue'
  * 3. 设置目标卡片的容器卡位编辑模式，然后在进行滚动视图
  * 4. 同理，容器卡可以多重嵌套，需要找到最外层的容器，全部置为编辑模式
  */
-export function scrollDomIntoView(item: Step | Branch) {
+export function scrollDomIntoView(item: Step | Branch): void {
   /** 画布区域，ID为CuCanvas组件写死的 */
   const Canvas = document.getElementById('cu-canvas') as HTMLElement
   const targetStep = isStep(item) ? item : item.parent

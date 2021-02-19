@@ -70,7 +70,7 @@ convertFlowToJson.dss = function (branch: Branch): any {
   return _branch
 }
 
-export function reduceStepVoid(flows: Ref<Steps>, callback: ReduceStepVoidCb) {
+export function reduceStepVoid(flows: Ref<Steps>, callback: ReduceStepVoidCb): void {
   for (const flow of flows.value) reduceStepVoid.dbs(flow, callback)
 }
 reduceStepVoid.dbs = function (step: Step, callback: ReduceStepVoidCb) {
@@ -84,7 +84,7 @@ reduceStepVoid.dss = function (branch: Branch, callback: ReduceStepVoidCb) {
   }
 }
 
-export function reduceFlowsVoid(flows: Ref<Steps>, callback: ReduceFlowsVoidCb) {
+export function reduceFlowsVoid(flows: Ref<Steps>, callback: ReduceFlowsVoidCb): void {
   for (const flow of flows.value) {
     callback(flow)
     reduceStepVoid.dbs(flow, callback)
@@ -130,12 +130,12 @@ export function clearRef(step: Step): any {
 }
 
 /** 创建全流程快照 */
-export function createSnapShot(flows: Ref<Steps>) {
+export function createSnapShot(flows: Ref<Steps>): any {
   return convertFlowToJson(flows.value)
 }
 
 /** 测试使用fetch JSON数据 */
-export async function getJSON() {
+export async function getJSON(): Promise<any> {
   const res = await fetch('/flow.json')
   const data = await res.json()
   return data
