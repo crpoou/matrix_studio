@@ -2,7 +2,7 @@ import { IGlobalSearchTypeItem, SearchType } from '@interface'
 
 export const StateMutationsMap = Object.freeze({
   /** 切换左侧边栏 */
-  TOOGLE_ASIDE_LEFT: 'TOOGLE_ASIDE_LEFT',
+  TOGGLE_ASIDE_LEFT: 'TOGGLE_ASIDE_LEFT',
   OPEN_ASIDE_LEFT: 'OPEN_ASIDE_LEFT',
   CLOSE_ASIDE_LEFT: 'CLOSE_ASIDE_LEFT'
 })

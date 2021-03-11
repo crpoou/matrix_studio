@@ -15,7 +15,7 @@
           class="cu-btn ft-chevron-down text-24"
           :class="isEdit ? 'ft-chevron-down' : 'ft-chevron-up'"
           :title="isEdit ? '阅读' : '编辑'"
-          @click.stop="TOOGLE_STEP(step)"
+          @click.stop="TOGGLE_STEP(step)"
         />
         <button class="cu-btn ft-x-circle text-24" title="原地删除" @click="DEL_STEP(step)" />
         <button class="cu-btn ft-lock text-24" title="禁用" @click="FORBID_STEP(step)" />
@@ -52,28 +52,28 @@ import {
   DEL_STEP,
   FORBID_STEP,
   MULTIPLE_SELECT_STEP,
-  ON_STEP_BEFORE_UNMOUNT,
+  ON_STEP_BEFORE_UN_MOUNT,
   ON_STEP_MOUNTED,
   OpenedSteps,
   SELECT_STEP,
   SelectedSteps,
-  TOOGLE_STEP,
+  TOGGLE_STEP,
   USE_STEP,
   ValidateMap
 } from '@store/Cube'
-import { ComputedRef, computed, defineComponent, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { ComputedRef, PropType, computed, defineComponent, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import { FALSE } from '@share'
 import { ICuStepProps } from './interface'
 import { ProvideInjectKeyMap } from '@constant'
+import { Step } from '@interface'
 import { getuuid } from '@utils/uuid'
 
 // 空字符取反为true，校验通过，报错字符串取反为false，校验不通过
-
 export default defineComponent({
   name: 'CuStep',
   props: {
     step: {
-      type: Object,
+      type: Object as PropType<Step>,
       required: true
     },
     index: {
@@ -81,7 +81,6 @@ export default defineComponent({
       required: true
     }
   },
-  // @ts-ignore
   setup(props: ICuStepProps) {
     /** 禁用状态默认值，只有第一层卡片才会用到 */
     const defaultDisabled = computed(() => props.step.isDisabled)
@@ -118,7 +117,7 @@ export default defineComponent({
     // mounted推送DOM实例
     onMounted(() => ON_STEP_MOUNTED(props.step, { domRef }))
     // unMounted卸载DOM实例
-    onBeforeUnmount(() => ON_STEP_BEFORE_UNMOUNT(props.step))
+    onBeforeUnmount(() => ON_STEP_BEFORE_UN_MOUNT(props.step))
     return {
       domRef,
       addStepSelf,
@@ -131,7 +130,7 @@ export default defineComponent({
       ValidateCollection,
       SelectedSteps,
       ValidateMap,
-      TOOGLE_STEP,
+      TOGGLE_STEP,
       isInCurrentTab,
       currentDisabled,
       isSelect,

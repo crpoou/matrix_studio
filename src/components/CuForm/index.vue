@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef, computed, defineComponent, inject, onBeforeUnmount, onMounted } from 'vue'
+import { ComputedRef, PropType, computed, defineComponent, inject, onBeforeUnmount, onMounted } from 'vue'
 import { EmptyObj, EmptyStr, ProvideInjectKeyMap } from '@constant'
-import { ON_FORM_BEFORE_UNMOUNT, ON_FORM_MOUNTED } from '@store/Cube'
+import { ON_FORM_BEFORE_UN_MOUNT, ON_FORM_MOUNTED } from '@store/Cube'
 import { useChildValidate, useValidate } from '@hooks'
 import { ComputedGetter } from '@vue/reactivity'
 import CuBranch from '@components/CuBranch/index.vue'
@@ -42,7 +42,7 @@ export default defineComponent({
   components: { CuBranch },
   props: {
     step: {
-      type: Object,
+      type: Object as PropType<Step>,
       required: true
     },
     isEdit: {
@@ -50,7 +50,6 @@ export default defineComponent({
       required: true
     }
   },
-  // @ts-ignore
   setup(props: Readonly<{ step: Step; isEdit: boolean }>) {
     /** 从Flow组件接受注入，是否处于活跃的TAB页中 */
     const isInCurrentTab = inject<ComputedRef<boolean>>(ProvideInjectKeyMap.CURRENT_TAB, computed(FALSE))
@@ -88,7 +87,7 @@ export default defineComponent({
     const { ChildValidateCollection } = useChildValidate(props)
 
     onMounted(() => ON_FORM_MOUNTED(props.step, { ValidateCollection, ChildValidateCollection }))
-    onBeforeUnmount(() => ON_FORM_BEFORE_UNMOUNT(props.step))
+    onBeforeUnmount(() => ON_FORM_BEFORE_UN_MOUNT(props.step))
 
     return { isInCurrentTab, isShowRead, isShowForm, isShowBranch, ValidateCollection }
   }

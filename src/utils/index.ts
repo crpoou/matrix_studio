@@ -39,37 +39,6 @@ convertJsonToFlow.dss = function (branch: Branch, flow: Step) {
   }
 }
 
-/**
- * 数据结构转json数据
- * @description
- * 1. 生成快照、去除循环引用
- * 2. 并不等于深拷贝
- * 3. 返回的数据不要保持引用，使用前需要做
- * ```ts
- * JSON.parse(JSON.stringify($1))
- * ```
- */
-export function convertFlowToJson(Flows: Steps): any {
-  return [...Flows].map(convertFlowToJson.dbs)
-}
-convertFlowToJson.dbs = function (step: Step): any {
-  const _step = { ...step }
-  // @ts-ignore
-  _step.parent = _step.flow = null
-  const branch = _step.branchs
-  // @ts-ignore
-  if (branch) _step.branchs = [...branch].map(convertFlowToJson.dss)
-  return _step
-}
-convertFlowToJson.dss = function (branch: Branch): any {
-  const _branch = { ...branch }
-  // @ts-ignore
-  _branch.parent = _branch.flow = null
-  // @ts-ignore
-  _branch.steps = [..._branch.steps].map(convertFlowToJson.dbs)
-  return _branch
-}
-
 export function reduceStepVoid(flows: Ref<Steps>, callback: ReduceStepVoidCb): void {
   for (const flow of flows.value) reduceStepVoid.dbs(flow, callback)
 }
@@ -117,23 +86,6 @@ export function normalizeRef(step: any, branch: Branch): Step {
   return step
 }
 
-/**
- * 清除数据结构引用注入
- *
- * @param step
- * @description
- *
- * 1. 等同convertFlowToJson简化版
- */
-export function clearRef(step: Step): any {
-  return convertFlowToJson.dbs(step)
-}
-
-/** 创建全流程快照 */
-export function createSnapShot(flows: Ref<Steps>): any {
-  return convertFlowToJson(flows.value)
-}
-
 /** 测试使用fetch JSON数据 */
 export async function getJSON(): Promise<any> {
   const res = await fetch('/flow.json')
@@ -147,4 +99,9 @@ export function isBranch(item: Step | Branch | undefined): item is Branch {
 
 export function isStep(item: Step | Branch | undefined): item is Step {
   return item ? !item.steps : false
+}
+
+const blackList = new Set(['parent', 'flow'])
+export function stringifyReplacer(key: string, value: any) {
+  return blackList.has(key) ? undefined : value
 }

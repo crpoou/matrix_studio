@@ -9,7 +9,7 @@
 - push 进入 history 栈
 - 正常操作。
 
-# ctrlz
+# ctrl + z
 
 - 生成快照，去除所有循环引用
 - `JSON.stringify`
@@ -17,7 +17,7 @@
 - 从 history 栈中弹出一项做 `JSON.parse`
 - `convertJSONToFlow`，全量替换当前 Flows
 
-# ctrl shiftz：
+# ctrl + shift + z：
 
 - 生成快照，去除所有循环引用
 - `JSON.stringify`
@@ -34,7 +34,7 @@
 
 computed，递归 Flows，生成 uuid->branch or step
 
-moubted，注册 uuid->validateCollection
+mounted，注册 uuid->validateCollection
 
 每一个 step 都有自己的一个状态集，包括 validateCollection 当前表单校验状态
 
@@ -59,6 +59,6 @@ moubted，注册 uuid->validateCollection
 - 点击切换关闭按钮，此时有渐变动画，展开或收起，能够记住上次的宽度
 -
 
+# 去除 getJSON 内多余的转换
 
-# 去除getJSON内多余的转换
-# cu-tabs内调用initCurrentFlowStopHandle
+# cu-tabs 内调用 initCurrentFlowStopHandle

@@ -14,7 +14,7 @@ export type Branchs = Set<Branch>
 
 export interface Step extends IBase {
   branchs?: Branchs
-  parent?: Branch
+  parent: Branch
   [key: string]: any
 }
 

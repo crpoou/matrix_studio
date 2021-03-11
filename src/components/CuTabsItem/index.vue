@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { CHANGE_TAB, CurrentFlowUUID } from '@store/Cube'
-import { computed, defineComponent } from 'vue'
+import { PropType, computed, defineComponent } from 'vue'
 import { Step } from '@interface'
 import { useChildValidate } from '@hooks'
 
@@ -18,11 +18,10 @@ export default defineComponent({
   name: 'CuTabsItem',
   props: {
     step: {
-      type: Object,
+      type: Object as PropType<Step>,
       required: true
     }
   },
-  // @ts-ignore
   setup(props: Readonly<{ step: Step }>) {
     const isInCurrentTab = computed(() => props.step.uuid === CurrentFlowUUID.value)
     const { ChildValidateCollection } = useChildValidate(props)

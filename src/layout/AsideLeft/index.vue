@@ -32,7 +32,7 @@ export default defineComponent({
     const store = useStore()
     const componentName = ref('ComponentTree')
     function handleToogle() {
-      store.commit(StateMutationsMap.TOOGLE_ASIDE_LEFT)
+      store.commit(StateMutationsMap.TOGGLE_ASIDE_LEFT)
     }
     return { handleToogle, ComponentList, componentName }
   }
@@ -80,7 +80,7 @@ export default defineComponent({
     resize: none;
 
     .left-tabs__toogle {
-      transform: rotate(1turn);
+      transform: rotate(0.5turn);
     }
   }
 

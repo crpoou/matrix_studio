@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, provide } from 'vue'
+import { PropType, computed, defineComponent, provide } from 'vue'
 import CuBranch from '@components/CuBranch/index.vue'
 import { CurrentFlowUUID } from '@store/Cube'
 import { ProvideInjectKeyMap } from '@constant'
@@ -20,11 +20,10 @@ export default defineComponent({
   components: { CuBranch },
   props: {
     flow: {
-      type: Object,
+      type: Object as PropType<Step>,
       required: true
     }
   },
-  // @ts-ignore
   setup(props: Readonly<{ flow: Step }>) {
     /** 是否处于活跃的TAB页 */
     const isInCurrentTab = computed(() => props.flow.uuid === CurrentFlowUUID.value)

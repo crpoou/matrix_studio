@@ -21,7 +21,7 @@ export const store = createStore<IState>({
     [StateMutationsMap.CLOSE_ASIDE_LEFT](state) {
       state.asideLeftOpen = false
     },
-    [StateMutationsMap.TOOGLE_ASIDE_LEFT](state) {
+    [StateMutationsMap.TOGGLE_ASIDE_LEFT](state) {
       state.asideLeftOpen = !state.asideLeftOpen
     }
   },

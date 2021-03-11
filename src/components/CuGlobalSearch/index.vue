@@ -19,12 +19,12 @@
 
 <script lang="ts">
 import { EmptyArr, EmptySearch, EmptyStr, SearchTypeMap } from '@constant'
-import { SEARCH_BY_DISPLAYNAME, SEARCH_BY_UUID, UuidMap } from '@store/Cube'
+import { SEARCH_BY_DISPLAY_NAME, SEARCH_BY_UUID, UuidMap } from '@store/Cube'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { SearchType } from '@interface'
 import { scrollDomIntoView } from '@utils/dom'
 
-const SearchFunMap = { uuid: SEARCH_BY_UUID, displayName: SEARCH_BY_DISPLAYNAME }
+const SearchFunMap = { uuid: SEARCH_BY_UUID, displayName: SEARCH_BY_DISPLAY_NAME }
 
 export default defineComponent({
   name: 'CuGlobalSearch',

@@ -293,7 +293,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
-    // templete模板中>符号不换行
+    // template模板中>符号不换行
     'vue/max-attributes-per-line': 0,
     'vue/singleline-html-element-content-newline': 0,
     'vue/html-self-closing': ['error', { html: { void: 'always' } }]

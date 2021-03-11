@@ -1,5 +1,5 @@
 import { Branch, Step } from '@interface'
-import { CHANGE_TAB, GET_DOMUI, OPEN_STEP, SELECT_STEP } from '@store/Cube'
+import { CHANGE_TAB, GET_DOM_UI, OPEN_STEP, SELECT_STEP } from '@store/Cube'
 import { ScrollIntoViewCenter, ScrollIntoViewStart } from '@constant/dom'
 import { isStep } from '@utils'
 import { nextTick } from 'vue'
@@ -18,23 +18,10 @@ export function scrollDomIntoView(item: Step | Branch): void {
   /** 画布区域，ID为CuCanvas组件写死的 */
   const Canvas = document.getElementById('cu-canvas') as HTMLElement
   const targetStep = isStep(item) ? item : item.parent
-  const DomUI = GET_DOMUI(targetStep)
+  const DomUI = GET_DOM_UI(targetStep)
   if (!DomUI) return
   CHANGE_TAB(item.flow)
   for (let step = targetStep; step.parent; step = step.parent.parent) OPEN_STEP(step)
-
-  // for (let step = targetStep; true;) {
-  //   /** 上层分支 */
-  //   const parentBranch = step.parent
-  //   if (parentBranch) {
-  //     // 如果它还有上层引用，证明是一张正常的卡，打开
-  //     OPEN_STEP(step)
-  //     step = parentBranch.parent
-  //   } else {
-  //     // 否则证明为flow级别，结束循环
-  //     break
-  //   }
-  // }
 
   nextTick(() => {
     DomUI.clientHeight < Canvas.clientHeight

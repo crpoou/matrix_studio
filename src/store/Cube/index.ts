@@ -1,15 +1,6 @@
 import { Branch, Step, Steps } from '@interface'
 import { ComputedRef, Ref, reactive, ref, shallowReactive, watchEffect } from 'vue'
-import {
-  clearRef,
-  convertJsonToFlow,
-  createSnapShot,
-  getJSON,
-  isStep,
-  normalizeRef,
-  reduceFlowsVoid,
-  reduceStepVoid
-} from '@utils'
+import { convertJsonToFlow, getJSON, isStep, normalizeRef, reduceFlowsVoid, reduceStepVoid, stringifyReplacer } from '@utils'
 import { EmptyStr } from '@constant'
 
 /** 全局流程数据 */
@@ -96,7 +87,7 @@ export function ON_FORM_MOUNTED(
  *
  * 1. 卸载校验集合
  */
-export function ON_FORM_BEFORE_UNMOUNT(step: Step): void {
+export function ON_FORM_BEFORE_UN_MOUNT(step: Step): void {
   const { uuid } = step
   ValidateMap.delete(uuid)
   ChildValidateMap.delete(uuid)
@@ -131,7 +122,7 @@ export function ON_STEP_MOUNTED(
  * 3. 卸载编辑状态集残留
  * 4. 卸载禁用状态集残留
  */
-export function ON_STEP_BEFORE_UNMOUNT(step: Step): void {
+export function ON_STEP_BEFORE_UN_MOUNT(step: Step): void {
   const { uuid } = step
   DomRefMap.delete(uuid)
   SelectedSteps.delete(uuid)
@@ -191,7 +182,7 @@ export function CLOSE_STEP(step: Step): void {
  * 切换卡片阅读、编辑模式
  * @param step
  */
-export function TOOGLE_STEP(step: Step): void {
+export function TOGGLE_STEP(step: Step): void {
   OpenedSteps.has(step.uuid) ? CLOSE_STEP(step) : OPEN_STEP(step)
 }
 
@@ -216,15 +207,14 @@ export function USE_STEP(step: Step): void {
  * 增量操作flows数据之前，必须调用的前置操作
  *
  * @description
- * 1. 创建当前瞬间的Flows快照
- * 2. JSON.stringify序列化
- * 3. 推入历史记录
+ * 1. JSON.stringify序列化
+ * 2. 推入历史记录
  */
 function PRE_OPERATION(): void {
-  HistoryStack.push(JSON.stringify(createSnapShot(Flows)))
+  HistoryStack.push(JSON.stringify(Flows.value, stringifyReplacer))
 }
 
-export function GET_DOMUI(step: Step): HTMLDivElement | undefined {
+export function GET_DOM_UI(step: Step): HTMLDivElement | undefined {
   return DomRefMap.get(step.uuid)?.value
 }
 
@@ -233,7 +223,7 @@ export function SEARCH_BY_UUID(uuid: string): string[] {
   return []
 }
 
-export function SEARCH_BY_DISPLAYNAME(displayName: string): string[] {
+export function SEARCH_BY_DISPLAY_NAME(displayName: string): string[] {
   const res = []
   const lower = displayName.toLowerCase()
   for (const [_name, _clo] of DisplayNameMap) if (_name.toLowerCase().includes(lower)) res.push(..._clo)
@@ -293,7 +283,7 @@ export function ADD_STEPS(steps: any[] | Set<any>, branch: Branch, index: number
   // 1. 生成历史记录
   PRE_OPERATION()
   // 2.去除所有引用注入，生成新一份json
-  const newSteps = JSON.parse(JSON.stringify([...steps].map(clearRef)))
+  const newSteps = JSON.parse(JSON.stringify(steps, stringifyReplacer))
   // 3.判断目标位置是否为branch最后一位
   const { steps: branchSteps } = branch
   if (index === branchSteps.size) {
@@ -318,7 +308,7 @@ export function DEL_STEPS(): void {
   PRE_OPERATION()
   for (const uuid of SelectedSteps) {
     const item = UuidMap.get(uuid)
-    if (isStep(item)) item.parent?.steps.delete(item)
+    if (isStep(item)) item.parent.steps.delete(item)
   }
   SelectedSteps.clear()
 }
@@ -335,7 +325,7 @@ export function DEL_STEPS(): void {
  */
 export function GO_BACK(): void {
   if (!HistoryStack.length) return
-  FutureStack.push(JSON.stringify(createSnapShot(Flows)))
+  FutureStack.push(JSON.stringify(Flows.value, stringifyReplacer))
   const temp = HistoryStack.pop()
   if (temp) Flows.value = convertJsonToFlow(JSON.parse(temp))
 }
@@ -377,7 +367,7 @@ export function CHANGE_TAB(flow: Step): void {
  */
 export function DEL_STEP(step: Step): void {
   PRE_OPERATION()
-  step.parent?.steps.delete(step)
+  step.parent.steps.delete(step)
 }
 
 /**
