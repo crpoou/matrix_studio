@@ -1,28 +1,34 @@
 import { Store, useStore as baseUseStore, createStore } from 'vuex'
 import { InjectionKey } from 'vue'
-import { StateMutationsMap } from '@constant'
+import { StateMutations } from '@constant'
 
 interface IState {
   asideLeftOpen: boolean
+  loading: boolean
 }
 /** 全局Store */
 export const store = createStore<IState>({
-  state() {
-    return {
-      asideLeftOpen: false
-    }
+  state: {
+    asideLeftOpen: false,
+    loading: false
   },
   getters: {},
   actions: {},
   mutations: {
-    [StateMutationsMap.OPEN_ASIDE_LEFT](state) {
+    [StateMutations.OPEN_ASIDE_LEFT](state) {
       state.asideLeftOpen = true
     },
-    [StateMutationsMap.CLOSE_ASIDE_LEFT](state) {
+    [StateMutations.CLOSE_ASIDE_LEFT](state) {
       state.asideLeftOpen = false
     },
-    [StateMutationsMap.TOGGLE_ASIDE_LEFT](state) {
+    [StateMutations.TOGGLE_ASIDE_LEFT](state) {
       state.asideLeftOpen = !state.asideLeftOpen
+    },
+    [StateMutations.SHOW_TOAST](state) {
+      state.loading = true
+    },
+    [StateMutations.HIDDEN_TOAST](state) {
+      state.loading = false
     }
   },
   // modules: {

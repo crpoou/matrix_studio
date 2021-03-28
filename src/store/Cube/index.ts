@@ -1,6 +1,6 @@
 import { Branch, Step, Steps } from '@interface'
 import { ComputedRef, Ref, reactive, ref, shallowReactive, watchEffect } from 'vue'
-import { convertJsonToFlow, getJSON, isStep, normalizeRef, reduceFlowsVoid, reduceStepVoid, stringifyReplacer } from '@utils'
+import { cloneDeep, convertJsonToFlow, getJSON, isStep, normalizeRef, parse, reduceFlowsVoid, reduceStepVoid, stringify } from '@utils'
 import { EmptyStr } from '@constant'
 
 /** 全局流程数据 */
@@ -207,11 +207,11 @@ export function USE_STEP(step: Step): void {
  * 增量操作flows数据之前，必须调用的前置操作
  *
  * @description
- * 1. JSON.stringify序列化
+ * 1. stringify序列化
  * 2. 推入历史记录
  */
 function PRE_OPERATION(): void {
-  HistoryStack.push(JSON.stringify(Flows.value, stringifyReplacer))
+  HistoryStack.push(stringify(Flows.value))
 }
 
 export function GET_DOM_UI(step: Step): HTMLDivElement | undefined {
@@ -283,7 +283,7 @@ export function ADD_STEPS(steps: any[] | Set<any>, branch: Branch, index: number
   // 1. 生成历史记录
   PRE_OPERATION()
   // 2.去除所有引用注入，生成新一份json
-  const newSteps = JSON.parse(JSON.stringify(steps, stringifyReplacer))
+  const newSteps = cloneDeep(steps)
   // 3.判断目标位置是否为branch最后一位
   const { steps: branchSteps } = branch
   if (index === branchSteps.size) {
@@ -325,9 +325,9 @@ export function DEL_STEPS(): void {
  */
 export function GO_BACK(): void {
   if (!HistoryStack.length) return
-  FutureStack.push(JSON.stringify(Flows.value, stringifyReplacer))
+  FutureStack.push(stringify(Flows.value))
   const temp = HistoryStack.pop()
-  if (temp) Flows.value = convertJsonToFlow(JSON.parse(temp))
+  if (temp) Flows.value = convertJsonToFlow(parse(temp))
 }
 
 /**
@@ -340,10 +340,11 @@ export function GO_BACK(): void {
  * 3. 全量替换全局流程数据
  */
 export function GO_TO(): void {
-  if (!FutureStack.length) return
-  PRE_OPERATION()
   const temp = FutureStack.pop()
-  if (temp) Flows.value = convertJsonToFlow(JSON.parse(temp))
+  if (temp) {
+    PRE_OPERATION()
+    Flows.value = convertJsonToFlow(parse(temp))
+  }
 }
 
 /**

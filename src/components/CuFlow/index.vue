@@ -2,7 +2,7 @@
   <section
     v-show="isInCurrentTab"
     :key="flow.uuid"
-    class="grid-justify-center area-main a-content-start custom-scroll overlay-y visible-auto"
+    class="grid-justify-center area-main a-content-start custom-scroll overlay-y visible-auto custom-scroll"
   >
     <cu-branch v-for="branch in flow.branchs" :key="branch.uuid" :branch="branch" />
   </section>

@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { ComponentList, StateMutationsMap } from '@constant'
+import { ComponentList, StateMutations } from '@constant'
 import { defineComponent, ref } from 'vue'
 import ComponentTree from '@pages/ComponentTree/index.vue'
 import VariablePool from '@pages/VariablePool/index.vue'
@@ -32,7 +32,7 @@ export default defineComponent({
     const store = useStore()
     const componentName = ref('ComponentTree')
     function handleToogle() {
-      store.commit(StateMutationsMap.TOGGLE_ASIDE_LEFT)
+      store.commit(StateMutations.TOGGLE_ASIDE_LEFT)
     }
     return { handleToogle, ComponentList, componentName }
   }

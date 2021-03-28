@@ -9,12 +9,17 @@ html {
 
 body {
   margin: 0;
+  display: grid;
 }
 
 html,
 body,
 #app {
   overflow: hidden;
+}
+
+#app {
+  grid-area: main;
 }
 
 /**
@@ -311,6 +316,8 @@ $grid-direction-list: stretch, start, center, end, space-around, space-between, 
 }
 
 .custom-scroll {
+  border-color: transparent;
+  transition: border-color 0.5s ease-in-out;
   $scroll-size: 6px;
 
   &::-webkit-scrollbar {
@@ -323,19 +330,14 @@ $grid-direction-list: stretch, start, center, end, space-around, space-between, 
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #aaa;
+    border: $scroll-size / 2 solid;
+    border-color: inherit;
     border-radius: $scroll-size / 2;
   }
 
-  // &::-webkit-scrollbar-thumb {
-  //   visibility: hidden;
-  //   background-color: #bbb;
-  //   border-radius: $scroll-size / 2;
-  // }
-
-  // &:hover::-webkit-scrollbar-thumb {
-  //   visibility: visible;
-  // }
+  &:hover {
+    border-color: grey;
+  }
 }
 
 .text-ellipsis {

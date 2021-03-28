@@ -149,7 +149,7 @@ module.exports = {
     'no-delete-var': 2, // 禁止删除变量
     'no-label-var': 2, // 不允许标签和变量同名
     'no-restricted-globals': [2, 'event', 'fdescribe'], // 禁用特定的全局变量
-    'no-shadow': [2, { builtinGlobals: true, hoist: 'all', allow: [] }], // 禁止变量声明覆盖外层作用域的变量
+    'no-shadow': [0, { builtinGlobals: true, hoist: 'all', allow: [] }], // 禁止变量声明覆盖外层作用域的变量
     'no-shadow-restricted-names': 2, // js关键字和保留字不能作为函数名或者变量名
     'no-undef': 2, // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到
     'no-undef-init': 2, // 禁止将变量初始化为undefined
@@ -293,6 +293,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-shadow': 2,
     // template模板中>符号不换行
     'vue/max-attributes-per-line': 0,
     'vue/singleline-html-element-content-newline': 0,

@@ -26,6 +26,7 @@
       <cu-nav-button icon="ft-edit" label="一键编辑" @click="OPEN_ALL_STEP" />
       <cu-nav-button icon="ft-delete" label="一键删除" @click="DEL_STEPS" />
       <cu-nav-button icon="ft-copy" label="一键全选" @click="SELECT_ALL_STEP" />
+      <cu-nav-button icon="ft-copy" label="测试弹窗" @click="showToast" />
     </div>
     <cu-global-search />
   </nav>
@@ -46,12 +47,22 @@ import {
 } from '@store/Cube'
 import CuGlobalSearch from '@components/CuGlobalSearch/index.vue'
 import CuNavButton from '@components/CuNavButton/index.vue'
+import { StateMutations } from '@constant'
 import { defineComponent } from 'vue'
+import { useStore } from '@store'
 
 export default defineComponent({
   name: 'CuNav',
   components: { CuNavButton, CuGlobalSearch },
   setup() {
+    const store = useStore()
+    function hiddenToast() {
+      store.commit(StateMutations.HIDDEN_TOAST)
+    }
+    function showToast() {
+      store.commit(StateMutations.SHOW_TOAST)
+      setTimeout(hiddenToast, 1500)
+    }
     return {
       CLEAR_OPEN_STEP,
       CalcCount,
@@ -62,7 +73,8 @@ export default defineComponent({
       HistoryStack,
       OPEN_ALL_STEP,
       RefreshFlows,
-      SELECT_ALL_STEP
+      SELECT_ALL_STEP,
+      showToast
     }
   }
 })

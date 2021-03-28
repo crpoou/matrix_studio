@@ -102,6 +102,18 @@ export function isStep(item: Step | Branch | undefined): item is Step {
 }
 
 const blackList = new Set(['parent', 'flow'])
-export function stringifyReplacer(key: string, value: any) {
+function stringifyReplacer(key: string, value: any) {
   return blackList.has(key) ? undefined : value
+}
+
+export function stringify(value: any): string {
+  return JSON.stringify(value, stringifyReplacer)
+}
+
+export function parse(text: string): any {
+  return JSON.parse(text)
+}
+
+export function cloneDeep<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value, stringifyReplacer))
 }
